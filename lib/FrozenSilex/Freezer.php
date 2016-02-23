@@ -31,6 +31,10 @@ class Freezer
             $app['freezer.destination'] = 'build';
         }
 
+        if (!isset($app['freezer.excluded_routes'])) {
+            $app['freezer.excluded_routes'] = array();
+        }
+
         if (!isset($app['url_generator'])) {
             $app->register(new \Silex\Provider\UrlGeneratorServiceProvider);
         }
@@ -51,6 +55,10 @@ class Freezer
             $routes = array();
 
             foreach ($app['routes']->all() as $name => $route) {
+                if (in_array($name, $app['freezer.excluded_routes'])) {
+                    continue;
+                }
+
                 $route->compile();
                 $routes[] = array($name);
             }

@@ -64,6 +64,12 @@ Example: If you've users which are not accessible through an Index page:
         return $users;
     });
 
+## Exclude routes
+
+    <?php
+
+    $app['freezer.excluded_routes'] = array('post_show', 'user_register');
+
 ## Configuration
 
 The following configuration keys are used from the App instance:
