@@ -19,7 +19,7 @@ class Freezer
     protected $frozen = array();
     protected $frozenRoutes = array();
 
-    function __construct(\Silex\Application $app)
+    public function __construct(\Silex\Application $app)
     {
         $this->application = $app;
 
@@ -41,13 +41,13 @@ class Freezer
             # Override the app's URL generator with a generator which freezes
             # every route automatically when the generator is called within
             # the app's controllers or views.
-            $app['url_generator'] = $app->extend('url_generator', function($generator) use ($self) {
+            $app['url_generator'] = $app->extend('url_generator', function ($generator) use ($self) {
                 return new FreezingUrlGenerator($generator, $self);
             });
         }
 
         # Define the default Generator which yields the app's routes.
-        $this->registerGenerator(function() use ($app) {
+        $this->registerGenerator(function () use ($app) {
             $routes = array();
 
             foreach ($app['routes']->all() as $name => $route) {
@@ -86,7 +86,7 @@ class Freezer
      * @param callable $generator
      * @return Freezer
      */
-    function registerGenerator($generator)
+    public function registerGenerator($generator)
     {
         $this->generators[] = $generator;
         return $this;
@@ -98,7 +98,7 @@ class Freezer
      *
      * @return void
      */
-    function freeze()
+    public function freeze()
     {
         $this->frozen = array();
         $this->frozenRoutes = array();
@@ -137,7 +137,7 @@ class Freezer
         }
     }
 
-    function freezeRoute($route, $parameters = array())
+    public function freezeRoute($route, $parameters = array())
     {
         if (in_array($route, $this->frozenRoutes)) {
             return;
@@ -165,7 +165,7 @@ class Freezer
      *
      * @param string $url
      */
-    function freezeUrl($url)
+    public function freezeUrl($url)
     {
         if (in_array($url, $this->frozen)) {
             return;
