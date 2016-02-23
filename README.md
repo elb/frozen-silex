@@ -62,7 +62,11 @@ Example: If you've users which are not accessible through an Index page:
         }
 
         return $users;
-    });
+    }, 80);
+
+The registerGenerator method accepts a second priority parameter which orders the execution
+of the generators. The default built-in generator is set to 100. If no value is given, any new generator
+will be appended after the built-in generator.
 
 ## Exclude routes
 

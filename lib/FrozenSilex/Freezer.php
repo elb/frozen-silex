@@ -89,14 +89,24 @@ class Freezer
      *     }
      *
      *     return $users;
-     *   });
+     *   }, 80);
      *
-     * @param callable $generator
+     * @param  callable $generator
+     * @param  int      $priority   sets a priority for a generator
      * @return Freezer
      */
-    public function registerGenerator($generator)
+    public function registerGenerator($generator, $priority = 100)
     {
-        $this->generators[] = $generator;
+        $priority = abs($priority);
+        if (isset($this->generators[$priority])) {
+            $priority = max(array_keys($this->generators));
+            $priority++;
+        }
+
+        $this->generators[$priority] = $generator;
+
+        ksort($this->generators);
+
         return $this;
     }
 
