@@ -157,7 +157,8 @@ class Freezer
 
     public function freezeRoute($route, $parameters = array())
     {
-        if (in_array($route, $this->frozenRoutes)) {
+        $routeId = md5(serialize(func_get_args()));
+        if (in_array($routeId, $this->frozenRoutes)) {
             return;
         }
 
@@ -170,7 +171,7 @@ class Freezer
         }
 
         if (isset($url)) {
-            $this->frozenRoutes[] = $route;
+            $this->frozenRoutes[] = $routeId;
             return $this->freezeUrl($url);
         }
     }
